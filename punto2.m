@@ -2,7 +2,7 @@
 entrada = input("Palabra para decodificar: "); % "11 00 00 01 11"
 
 %transiciones
-%estado actual, símbolo leído, estado al que pasa, salida
+%estado actual, símbolo leído, estado al que pasa, salida (línea punteada es 1)
 transiciones = {"00", 0, "00", "00";
                 "00", 1, "10", "11";  
                 "10", 0, "01", "01";  
@@ -67,25 +67,26 @@ for i = 1 : 5
   endfor
 endfor
 
-%se inician las rutas y los camnios en 0
+%se inicializan las rutas y los camnios en 0
 rutas = {"0", "0", "0", "0"};
 caminos = {"0", "0", "0", "0"};
 
-%peso acumulado de la ruta sobreviviente
+%peso acumulado de las rutas sobrevivientes
 pesoActual = [0, 0, 0, 0]; 
 
-%peso a comparar en cada iteracion del algoritmo de Viterbi
-%las primeras 4 posiciones son del primer camino, las otras 4, del otro
-pesos = [0, 0, 0, 0, 0, 0, 0, 0]; 
+%pesos para comparar en cada iteracion del algoritmo de Viterbi
+%tiene la misma estructura que una fila de la matriz de pesos de las iteraciones (las 2 primeras posiciones son del estado a, las 2 siguientes del b, ...)
+pesos = [0, 0, 0, 0, 0, 0, 0, 0];
 
-%iterar sobre la matriz de pesos y el vector de pesos actuales para calcular el vector de pesos
+%iterar sobre la matriz de pesos de las iteraciones y el vector de pesos actuales para calcular el vector de pesos
 for i = 1 : 5
  for j = 1 : 8
   pesos(j) = pesoActual(ceil(j / 2)) + pesosDeIteraciones(i, j);
  endfor
  
- %compara los pesos de las dos rutas que llegan a cada estado para llenar los arreglos
+ %compara los pesos de las dos rutas para elegir la mejor
  for j = 1 : 4
+  %si el peso de la primera opción es mejor, tomar este camino
   if pesos(j) < pesos(j + 4)
     
    %peso del mejor camino
@@ -113,7 +114,7 @@ codigo = {"00", "00", "00", "00", "00"};
 %nicializar arreglo para d
 d = [0, 0, 0, 0, 0];
 
-%comenzar a llenar el vector de la ruta actual
+%comenzar a llenar el vector de la ruta actual con el camino que tiene menor peso
 rutaActual(6) = min(pesoActual);
 
 %llenar el vector de d y el del código de salida con ayuda de los vectores ruta actual, rutas y caminos
