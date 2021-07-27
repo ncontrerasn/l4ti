@@ -51,8 +51,10 @@ disp("2. Decodificar");
 menu = input('Opción: ');  
 
 switch menu
+  
   #codificar
   case 1
+  
     #pedir la palabra
     entrada = input("Ingrese la palabra de la forma [d_1, d_2, d_3]: ");
     
@@ -65,6 +67,7 @@ switch menu
     
   #decodificar
   case 2
+  
     #pedir la palabra
     entrada = input("Ingrese la palabra de la forma [d_1, d_2, d_3, c_1, c_2, c_3]: ");
     
@@ -85,14 +88,17 @@ switch menu
     
     #se recorren los elementos de Ht
     for i = 1 : n
+      
       #se revisa si s y Ht en alguna fila son iguales; si lo son se marca sindrome = i
       if isequal(s, Ht(i, :))
         sindrome = i;
       endif
     endfor
+    
     #si síndrome es mayor a 0 hay un error en uno de los bits
     #se cambia el valor del bit en la posición en la que s es igual a la fila de Ht
     if sindrome > 0
+      
       #si la entrada en la posición del valor de síndrome es 0, lo cambia a 1
       if entrada(sindrome) == 0
         entrada(sindrome) = 1;
@@ -102,10 +108,12 @@ switch menu
         entrada(sindrome) = 0;
       end
     end
+    
     #se imprime el código final
     printf("El código final es:");
     disp(entrada);
 otherwise
+
     #en el caso que el usuario no ingrese un valor válido del menú
     disp('Opcion inválida');
 end
